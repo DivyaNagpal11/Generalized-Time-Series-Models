@@ -1,0 +1,5 @@
+def mean_absolute_percentage_error(self,y_true,y_pred):
+    return np.mean(np.abs(np.subtract(y_true,y_pred)/y_true))*100
+def calculate_apes(self):
+    for i,j in zip(self.test.values.flatten(),self.test_prediction.values.flatten()):            
+        self.apes.append(self.mean_absolute_percentage_error(i,j))

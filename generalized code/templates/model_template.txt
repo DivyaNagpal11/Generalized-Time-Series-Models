@@ -1,0 +1,22 @@
+#Import files
+
+{{template_dict.imports}}
+import pandas as pd
+import numpy as np
+
+#Model class
+class {{template_dict.class_name}}:
+
+{% filter indent(width=4) %}  
+{{template_dict.init_function}}
+
+{{template_dict.fit_function}}
+
+{{template_dict.fitted_function}}
+
+{{template_dict.predict_function}}
+
+{{template_dict.additional_functions }}  
+
+{{template_dict.run_script }}
+{% endfilter %}

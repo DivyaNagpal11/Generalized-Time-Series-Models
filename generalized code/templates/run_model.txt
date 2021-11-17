@@ -1,0 +1,20 @@
+def run_model(self):
+    #Model running for test prediction
+    model = self.fit(self.train)
+    self.fitted_values = pd.DataFrame(self.fitted_data(model),self.train.index,columns=[self.target_value])
+    self.test_prediction = pd.DataFrame(self.predict(model,self.n_periods),self.test.index,columns=[self.target_value])
+
+    #Model running for unseen prediction
+    model_test = self.fit(self.train.append(self.test))
+
+    unseen_index = pd.date_range(self.test.index[-1]+pd.tseries.offsets.MonthEnd(n=1),
+          self.test.index[-1]+pd.tseries.offsets.MonthEnd(n=self.n_periods),freq='M')
+
+    self.unseen_prediction = pd.DataFrame(self.predict(model_test),unseen_index,columns=[self.target_value])
+
+    #Calculate apes for each test prediction        
+    self.calculate_apes()
+    self.train_model_params = model.get_params()
+    self.test_model_params = model_test.get_params()
+    self.train_mape = self.mean_absolute_percentage_error(self.train.values.flatten(),self.fitted_values.values.flatten())
+    self.test_mape = self.mean_absolute_percentage_error(self.test.values.flatten(),self.test_prediction.values.flatten())
